@@ -1,12 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
   <title>DevOps Pages Lab</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    pre { background: #f4f4f4; padding: 15px; border-radius: 8px; }
+    .log { color: #2e8b57; font-weight: bold; }
+  </style>
 </head>
 <body>
   <h1>My GitHub Pages Site</h1>
   <p>Owner: Tanuki</p>
   <p>Course: 軟體開發維運</p>
   <p>Deployed via GitHub Pages.</p>
+
+  <hr>
+
+  <h2>最近活動（自動更新）</h2>
+  <pre id="activity-log">Loading activity log...</pre>
+
+  <script>
+    // 自動從 README.md 讀取活動日誌
+    fetch('README.md')
+      .then(response => response.text())
+      .then(text => {
+        const start = text.indexOf('<!-- ACTIVITY_LOG_START -->');
+        const end = text.indexOf('<!-- ACTIVITY_LOG_END -->');
+        if (start !== -1 && end !== -1 && end > start) {
+          const log = text.substring(start + 27, end).trim();
+          document.getElementById('activity-log').textContent = log || 'No recent activity.';
+        } else {
+          document.getElementById('activity-log').textContent = 'Log markers not found.';
+        }
+      })
+      .catch(err => {
+        document.getElementById('activity-log').textContent = 'Failed to load log.';
+      });
+  </script>
 </body>
 </html>
