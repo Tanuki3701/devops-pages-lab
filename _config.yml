@@ -1,7 +1,5 @@
----
-# 必須有 --- 開頭
 include:
   - README.md
-# 可選：啟用相對路徑
-# permalink: pretty
----
+
+data:
+  readme: README.md
