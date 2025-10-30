@@ -1,0 +1,47 @@
+name: Update README Activity Log
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '**'
+      - '!README.md'
+      - '!.github/workflows/**'
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    if: github.actor != 'github-actions[bot]'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.TOKEN }}
+          fetch-depth: 0
+
+      - name: Set Taiwan Timezone
+        run: sudo timedatectl set-timezone Asia/Taipei
+
+      - name: Generate Log
+        run: |
+          TZ='Asia/Taipei' git log --pretty=format:"* **%ad** - %s (%an)" \
+                  --date=format:"%Y-%m-%d %H:%M" -10 > log.txt
+
+      - name: Update README
+        run: |
+          awk '
+            /<!-- ACTIVITY_LOG_START -->/ { print; system("cat log.txt"); next }
+            /<!-- ACTIVITY_LOG_END -->/ { print; next }
+            { print }
+          ' README.md > tmp.md && mv tmp.md README.md
+
+      - name: Commit & Push
+        run: |
+          git config user.name "github-actions[bot]"
+          git add README.md
+          git diff --staged --quiet && exit 0
+          git commit -m "Update activity log"
+          git push origin main
