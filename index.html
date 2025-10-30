@@ -4,23 +4,40 @@
   <meta charset="utf-8">
   <title>DevOps Pages Lab</title>
   <style>
-    body { font-family: Arial,; margin:; }
-    pre { background: #f9f9f9; padding: 15px; border-left: 4px solid #ddd; }
+    body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+    h1, h2 { color: #2c3e50; }
+    pre { background: #f8f9fa; padding: 15px; border-left: 4px solid #3498db; font-size: 14px; }
+    hr { border: 1px solid #eee; margin: 30px 0; }
   </style>
 </head>
 <body>
   <h1>My GitHub Pages Site</h1>
-  <p>>h1>Owner: Tanuki</p>
-ator
-  <p>Course: 軟體開發開發維運</p>h1>
-  <p>Deployed via GitHub Pages.</p>
+  <p><strong>Owner:</strong> Tanuki</p>
+  <p><strong>Course:</strong> 軟體開發維運</p>
+  <p><strong>Deployed via:</strong> GitHub Pages</p>
 
->
+  <hr>
 
-  <hr>最近活動（自動更新）</h2>
->
-  <div id="readme-content">
-    <!-- 由 Jekyll 自動插入 README.md 內容 -->
-  </div>
+  <h2>最近活動（自動更新）</h2>
+  <pre id="activity-log">Loading activity log from README.md...</pre>
+
+  <script>
+    // 安全讀取 README.md 的活動日誌區塊
+    fetch('README.md?t=' + Date.now())
+      .then(r => r.text())
+      .then(text => {
+        const start = text.indexOf('<!-- ACTIVITY_LOG_START -->');
+        const end = text.indexOf('<!-- ACTIVITY_LOG_END -->');
+        if (start !== -1 && end !== -1 && end > start) {
+          const log = text.substring(start + 27, end).trim();
+          document.getElementById('activity-log').textContent = log || 'No recent activity.';
+        } else {
+          document.getElementById('activity-log').textContent = 'Activity log markers not found in README.md';
+        }
+      })
+      .catch(() => {
+        document.getElementById('activity-log').textContent = 'Failed to load README.md';
+      });
+  </script>
 </body>
 </html>
