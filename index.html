@@ -4,39 +4,23 @@
   <meta charset="utf-8">
   <title>DevOps Pages Lab</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 40px; }
-    pre { background: #f4f4f4; padding: 15px; border-radius: 8px; }
-    .log { color: #2e8b57; font-weight: bold; }
+    body { font-family: Arial,; margin:; }
+    pre { background: #f9f9f9; padding: 15px; border-left: 4px solid #ddd; }
   </style>
 </head>
 <body>
   <h1>My GitHub Pages Site</h1>
-  <p>Owner: Tanuki</p>
-  <p>Course: 軟體開發維運</p>
+  <p>>h1>Owner: Tanuki</p>
+ator
+  <p>Course: 軟體開發開發維運</p>h1>
   <p>Deployed via GitHub Pages.</p>
 
-  <hr>
+>
 
-  <h2>最近活動（自動更新）</h2>
-  <pre id="activity-log">Loading activity log...</pre>
-
-  <script>
-    // 自動從 README.md 讀取活動日誌
-    fetch('README.md')
-      .then(response => response.text())
-      .then(text => {
-        const start = text.indexOf('<!-- ACTIVITY_LOG_START -->');
-        const end = text.indexOf('<!-- ACTIVITY_LOG_END -->');
-        if (start !== -1 && end !== -1 && end > start) {
-          const log = text.substring(start + 27, end).trim();
-          document.getElementById('activity-log').textContent = log || 'No recent activity.';
-        } else {
-          document.getElementById('activity-log').textContent = 'Log markers not found.';
-        }
-      })
-      .catch(err => {
-        document.getElementById('activity-log').textContent = 'Failed to load log.';
-      });
-  </script>
+  <hr>最近活動（自動更新）</h2>
+>
+  <div id="readme-content">
+    <!-- 由 Jekyll 自動插入 README.md 內容 -->
+  </div>
 </body>
 </html>
